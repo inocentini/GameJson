@@ -7,14 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomListAdapter extends ArrayAdapter<Game> {
-
     ArrayList<Game> games;
     Context context;
     int resource;
@@ -38,13 +42,36 @@ public class CustomListAdapter extends ArrayAdapter<Game> {
         Game game = getItem(position);
 
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imageViewGame);
-        Picasso.get().load(game.getImage()).into(imageView);
-
         TextView txtName = (TextView) convertView.findViewById(R.id.txtTitulo);
-        txtName.setText(game.getName());
-
         TextView txtRelease = (TextView) convertView.findViewById(R.id.txtLancamento);
-        txtRelease.setText("Lançamento: "+ game.getRelease_data());
+        TextView txtPlataforma = (TextView) convertView.findViewById(R.id.txtPlataforma);
+
+        final ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.progressBar);
+
+        Picasso.get()
+                .load(game.getImage())
+                .into(imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        e.printStackTrace();
+
+                    }
+                });
+
+//        Picasso.get().load(game.getImage()).into(imageView);
+
+        txtName.setText(game.getName());
+        txtRelease.setText("Lançamento: "+ game.getRelease_date());
+        StringBuffer stringBuffer = new StringBuffer();
+        for(Game.Plataform plataform : games.get(position).getPlataformList()){
+            stringBuffer.append(plataform.getName()+", ");
+        }
+        txtPlataforma.setText("Disponível em : " + stringBuffer);
 
         return convertView;
     }

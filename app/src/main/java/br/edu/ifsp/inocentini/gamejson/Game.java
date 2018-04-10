@@ -1,14 +1,38 @@
 package br.edu.ifsp.inocentini.gamejson;
 
+import java.util.List;
+
 public class Game {
     private String image;
     private String name;
-    private String release_data;
+    private String release_date;
+    private String trailer;
+    private List<Plataform> plataformList;
 
-    public Game(String image, String name, String release_data) {
+    public Game(String image, String name, String release_date, String trailer, List<Plataform> plataformList) {
         this.image = image;
         this.name = name;
-        this.release_data = release_data;
+        this.release_date = release_date;
+        this.trailer = trailer;
+        this.plataformList = plataformList;
+    }
+    public Game(){
+
+    }
+    public String getTrailer() {
+        return trailer;
+    }
+
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
+    }
+
+    public List<Plataform> getPlataformList() {
+        return plataformList;
+    }
+
+    public void setPlataformList(List<Plataform> plataformList) {
+        this.plataformList = plataformList;
     }
 
     public String getImage() {
@@ -27,11 +51,24 @@ public class Game {
         this.name = name;
     }
 
-    public String getRelease_data() {
-        return release_data;
+    public String getRelease_date() {
+        return release_date;
     }
 
-    public void setRelease_data(String release_data) {
-        this.release_data = release_data;
+    public void setRelease_date(String release_date) {
+        this.release_date = release_date;
     }
+
+    public static class Plataform {
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
 }
